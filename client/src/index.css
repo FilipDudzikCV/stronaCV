@@ -71,10 +71,12 @@
   }
   
   .nav-active {
-    @apply bg-primary/10 text-primary font-medium;
+    background-color: hsl(238, 77%, 88%);
+    @apply text-primary font-medium;
   }
   
   .category-active {
-    @apply bg-primary/10 text-primary font-semibold;
+    background-color: hsl(238, 77%, 88%);
+    @apply text-primary font-semibold;
   }
 }

@@ -80,6 +80,51 @@ export class MemStorage implements IStorage {
       username: "jan.kowalski",
       password: "password123",
       location: "Warszawa",
+    }).then(() => {
+      // Add some sample listings
+      this.createListing({
+        title: "Kurtka zimowa Nike",
+        description: "Świetnie zachowana kurtka zimowa Nike, rozmiar M. Bardzo ciepła i wodoodporna.",
+        price: "299",
+        category: "odziez",
+        location: "Warszawa",
+        userId: 1,
+        images: ["https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=300&fit=crop"],
+        negotiable: true,
+      });
+
+      this.createListing({
+        title: "Buty sportowe Adidas",
+        description: "Nowe buty sportowe Adidas, rozmiar 42. Nigdy nie noszone, z metkami.",
+        price: "199",
+        category: "obuwie",
+        location: "Kraków",
+        userId: 1,
+        images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop"],
+        negotiable: false,
+      });
+
+      this.createListing({
+        title: "Torebka markowa Coach",
+        description: "Oryginalna torebka Coach w doskonałym stanie. Kupiłam za 800zł, sprzedam za 450zł.",
+        price: "450",
+        category: "akcesoria",
+        location: "Wrocław",
+        userId: 1,
+        images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop"],
+        negotiable: true,
+      });
+
+      this.createListing({
+        title: "Smartwatch Apple Watch",
+        description: "Apple Watch Series 8, stan bardzo dobry. Sprzedam z ładowarką i pudełkiem.",
+        price: "1200",
+        category: "elektronika",
+        location: "Gdańsk",
+        userId: 1,
+        images: ["https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop"],
+        negotiable: true,
+      });
     });
   }
 
@@ -94,9 +139,12 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
     const user: User = { 
-      ...insertUser, 
       id,
-      avatar: null 
+      username: insertUser.username,
+      password: insertUser.password,
+      name: insertUser.name,
+      location: insertUser.location,
+      avatar: insertUser.avatar || null
     };
     this.users.set(id, user);
     return user;
@@ -121,11 +169,18 @@ export class MemStorage implements IStorage {
   async createListing(insertListing: InsertListing): Promise<Listing> {
     const id = this.currentListingId++;
     const listing: Listing = {
-      ...insertListing,
       id,
+      title: insertListing.title,
+      description: insertListing.description,
+      price: insertListing.price,
+      category: insertListing.category,
+      location: insertListing.location,
+      userId: insertListing.userId,
+      images: insertListing.images || null,
+      negotiable: insertListing.negotiable || null,
+      status: 'active',
       views: 0,
       favorites: 0,
-      status: 'active',
       createdAt: new Date(),
     };
     this.listings.set(id, listing);
