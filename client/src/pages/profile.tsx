@@ -28,9 +28,9 @@ import { cn } from "@/lib/utils";
 import type { Listing } from "@shared/schema";
 
 const filterOptions = [
-  { id: "all", label: "Wszystkie", count: 12 },
-  { id: "active", label: "Aktywne", count: 8 },
-  { id: "sold", label: "Sprzedane", count: 4 },
+  { id: "all", label: "Wszystkie", count: 0 },
+  { id: "active", label: "Aktywne", count: 0 },
+  { id: "sold", label: "Sprzedane", count: 0 },
 ];
 
 export default function Profile() {
@@ -81,10 +81,10 @@ export default function Profile() {
                     <User className="h-12 w-12" />
                   </AvatarFallback>
                 </Avatar>
-                <h2 className="text-xl font-bold text-gray-900 mb-1">Jan Kowalski</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-1">Filip Dudzik</h2>
                 <p className="text-gray-600 mb-4 flex items-center justify-center gap-1">
                   <MapPin className="h-4 w-4" />
-                  Warszawa
+                  Kraków
                 </p>
                 
                 <div className="grid grid-cols-3 gap-4 text-center mb-6">

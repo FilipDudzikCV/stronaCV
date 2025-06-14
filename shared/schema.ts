@@ -7,7 +7,6 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   name: text("name").notNull(),
-  location: text("location").notNull(),
   avatar: text("avatar"),
 });
 
@@ -17,7 +16,7 @@ export const listings = pgTable("listings", {
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   category: text("category").notNull(),
-  location: text("location").notNull(),
+
   userId: integer("user_id").notNull(),
   images: text("images").array(),
   negotiable: boolean("negotiable").default(false),
@@ -51,7 +50,7 @@ export const favorites = pgTable("favorites", {
 
 export const insertUserSchema = createInsertSchema(users).omit({ id: true });
 export const insertListingSchema = createInsertSchema(listings).omit({ 
-  id: true, 
+   id: true, 
   views: true, 
   favorites: true, 
   createdAt: true 

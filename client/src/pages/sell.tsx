@@ -12,7 +12,6 @@ import { CloudUpload, X } from "lucide-react";
 import { useCreateListing } from "@/hooks/use-listings";
 import { insertListingSchema } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
 import { z } from "zod";
 
 const sellFormSchema = insertListingSchema.extend({
@@ -30,7 +29,6 @@ const categories = [
 ];
 
 export default function Sell() {
-  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -44,17 +42,17 @@ export default function Sell() {
       description: "",
       price: "",
       category: "",
-      location: "",
       negotiable: false,
       userId: 1, // Default user for demo
       images: [],
+      // lokalizacja usunięta z defaultValues
     },
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const maxFiles = 5;
-    
+
     if (files.length + selectedImages.length > maxFiles) {
       toast({
         title: "Zbyt wiele zdjęć",
@@ -67,7 +65,6 @@ export default function Sell() {
     const newImages = [...selectedImages, ...files];
     setSelectedImages(newImages);
 
-    // Create preview URLs
     const newPreviews = [...imagePreviews];
     files.forEach((file) => {
       const reader = new FileReader();
@@ -90,7 +87,7 @@ export default function Sell() {
     const listingData = {
       ...data,
       price: data.price,
-      images: imagePreviews, // In a real app, you'd upload these to a file service
+      images: imagePreviews, // w prawdziwej apce upload na serwer
     };
 
     createListingMutation.mutate(listingData, {
@@ -102,7 +99,6 @@ export default function Sell() {
         form.reset();
         setSelectedImages([]);
         setImagePreviews([]);
-        setLocation("/");
       },
       onError: () => {
         toast({
@@ -126,6 +122,7 @@ export default function Sell() {
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
                 <FormField
                   control={form.control}
                   name="title"
@@ -195,20 +192,6 @@ export default function Sell() {
 
                 <FormField
                   control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-semibold">Lokalizacja *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Podaj miasto" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name="description"
                   render={({ field }) => (
                     <FormItem>
@@ -230,7 +213,7 @@ export default function Sell() {
                   <label className="block text-sm font-semibold text-gray-700">
                     Zdjęcia
                   </label>
-                  
+
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
                     <input
                       type="file"
